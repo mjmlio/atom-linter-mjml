@@ -1,6 +1,7 @@
 'use babel';
 
 import { documentParser, MJMLValidator } from 'mjml'
+import container from './container'
 
 export default {
   activate() {
@@ -20,7 +21,13 @@ export default {
         return new Promise(resolve => {
           const filePath = TextEditor.getPath();
           const fileText = TextEditor.getText()
-          const MJMLDocument = documentParser(fileText)
+          const MJMLDocument = documentParser(fileText, {
+            container: container(),
+            defaultAttributes: {},
+            cssClasses: {},
+            css: [],
+            fonts: []
+          })
           const report = MJMLValidator(MJMLDocument)
           const formattedError = report.map(e => {
             const line = e.line - 1
