@@ -2,4 +2,4 @@
 
 A linter for your MJML file
 
-![Screenshot of linter-mjml](https://cloud.githubusercontent.com/assets/570317/19561157/b82f7d76-96d7-11e6-96cf-ce84a1af098a.gif)
+![Screenshot of linter-mjml](https://cloud.githubusercontent.com/assets/570317/19561258/366cc3b0-96d8-11e6-9f44-44447ab41e9e.gif)
