@@ -2,4 +2,4 @@
 
 A linter for your MJML file
 
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+![Screenshot of linter-mjml](https://cloud.githubusercontent.com/assets/570317/19561157/b82f7d76-96d7-11e6-96cf-ce84a1af098a.gif)
