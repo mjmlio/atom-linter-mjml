@@ -1,9 +1,9 @@
 {
   "name": "linter-mjml",
   "main": "index.js",
-  "version": "1.0.0",
-  "description": "A linter for mjml",
-  "keywords": [],
+  "version": "0.0.0",
+  "description": "A linter for MJML",
+  "keywords": ["mjml", "email"],
   "package-deps": [
     "linter",
     "language-mjml"
