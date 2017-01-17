@@ -5,10 +5,12 @@ import container from './container'
 
 export default {
   activate() {
+    window.mjml_disable_jquery = true
     require('atom-package-deps').install();
   },
 
   deactivate() {
+    window.mjml_disable_jquery = false
   },
 
   provideLinter() {
