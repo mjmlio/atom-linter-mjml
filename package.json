@@ -34,7 +34,7 @@
     "atom-linter": "^8.0.0",
     "atom-package-deps": "^4.0.1",
     "lodash": "^4.17.4",
-    "mjml": "^3.3.0"
+    "mjml": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^3.7.1",
