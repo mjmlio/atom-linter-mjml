@@ -1,6 +1,10 @@
 'use babel';
 
-import { documentParser, MJMLValidator } from 'mjml'
+import mjml from 'mjml'
+import { components } from 'mjml-core'
+import MJMLParser from 'mjml-parser-xml'
+import MJMLValidator from 'mjml-validator'
+
 import find from 'lodash/find'
 
 const getMJBody = (root) => find(root.children, ['tagName', 'mj-body'])
@@ -28,19 +32,17 @@ export default {
           const fileText = TextEditor.getText()
 
           try {
-            MJMLDocument = documentParser(fileText)
+            MJMLDocument = MJMLParser(fileText, {
+              components,
+              filePath: '.',
+            })
           } catch (e) {
             reject(e)
           }
 
-          const body = getMJBody(MJMLDocument)
+          const errors = MJMLValidator(MJMLDocument, { components })
 
-          if (!body || !body.children || body.children.length == 0) {
-            reject()
-          }
-
-          const report = MJMLValidator(body.children[0])
-          const formattedError = report.map(e => {
+          const formattedError = errors.map(e => {
             const line = e.line - 1
             const currentLine = TextEditor.getBuffer().lineForRow(e.line - 1)
 
