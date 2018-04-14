@@ -5,9 +5,9 @@ import { components } from 'mjml-core'
 import MJMLParser from 'mjml-parser-xml'
 import MJMLValidator from 'mjml-validator'
 
-import find from 'lodash/find'
-
-const getMJBody = (root) => find(root.children, ['tagName', 'mj-body'])
+function wrapIntoMJMLTags(content) {
+  return `<mjml><mj-body>${content}</mj-body></mjml>`
+}
 
 export default {
   activate() {
@@ -29,7 +29,11 @@ export default {
         return new Promise((resolve, reject) => {
           let MJMLDocument
           const filePath = TextEditor.getPath();
-          const fileText = TextEditor.getText()
+          let fileText = TextEditor.getText()
+
+          if (fileText.trim().indexOf('<mjml') !== 0) {
+            fileText = wrapIntoMJMLTags(fileText)
+          }
 
           try {
             MJMLDocument = MJMLParser(fileText, {
