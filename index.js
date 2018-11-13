@@ -1,9 +1,13 @@
 'use babel';
 
-import { documentParser, MJMLValidator } from 'mjml'
-import find from 'lodash/find'
+import mjml from 'mjml'
+import { components, initializeType } from 'mjml-core'
+import MJMLParser from 'mjml-parser-xml'
+import MJMLValidator from 'mjml-validator'
 
-const getMJBody = (root) => find(root.children, ['tagName', 'mj-body'])
+function wrapIntoMJMLTags(content) {
+  return `<mjml><mj-body>${content}</mj-body></mjml>`
+}
 
 export default {
   activate() {
@@ -25,22 +29,24 @@ export default {
         return new Promise((resolve, reject) => {
           let MJMLDocument
           const filePath = TextEditor.getPath();
-          const fileText = TextEditor.getText()
+          let fileText = TextEditor.getText()
+
+          if (fileText.trim().indexOf('<mjml') !== 0) {
+            fileText = wrapIntoMJMLTags(fileText)
+          }
 
           try {
-            MJMLDocument = documentParser(fileText)
+            MJMLDocument = MJMLParser(fileText, {
+              components,
+              filePath: '.',
+            })
           } catch (e) {
             reject(e)
           }
 
-          const body = getMJBody(MJMLDocument)
+          const errors = MJMLValidator(MJMLDocument, { components, initializeType })
 
-          if (!body || !body.children || body.children.length == 0) {
-            reject()
-          }
-
-          const report = MJMLValidator(body.children[0])
-          const formattedError = report.map(e => {
+          const formattedError = errors.map(e => {
             const line = e.line - 1
             const currentLine = TextEditor.getBuffer().lineForRow(e.line - 1)
 
@@ -51,6 +57,7 @@ export default {
               text: e.message
             }
           })
+
           resolve(formattedError)
         })
       }
