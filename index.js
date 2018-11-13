@@ -1,7 +1,7 @@
 'use babel';
 
 import mjml from 'mjml'
-import { components } from 'mjml-core'
+import { components, initializeType } from 'mjml-core'
 import MJMLParser from 'mjml-parser-xml'
 import MJMLValidator from 'mjml-validator'
 
@@ -44,7 +44,7 @@ export default {
             reject(e)
           }
 
-          const errors = MJMLValidator(MJMLDocument, { components })
+          const errors = MJMLValidator(MJMLDocument, { components, initializeType })
 
           const formattedError = errors.map(e => {
             const line = e.line - 1
@@ -57,6 +57,7 @@ export default {
               text: e.message
             }
           })
+
           resolve(formattedError)
         })
       }
